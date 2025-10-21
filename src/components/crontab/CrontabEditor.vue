@@ -15,11 +15,27 @@
     <Modal
       v-model="showModal"
       title="CRONTAB 表达式编辑器"
-      width="800"
+      :width="800"
       :mask-closable="false"
       @on-ok="handleConfirm"
       @on-cancel="handleCancel"
     >
+      <!-- 常用表达式 -->
+      <div class="common-expressions">
+        <h4>常用表达式：</h4>
+        <div class="expression-buttons">
+          <Button
+              v-for="(expr, key) in commonExpressions"
+              :key="key"
+              size="small"
+              type="primary"
+              ghost
+              @click="applyCommonExpression(expr.value)"
+          >
+            {{ expr.label }}
+          </Button>
+        </div>
+      </div>
       <!-- 表达式预览 -->
       <div class="expression-preview">
         <h4>表达式预览：</h4>
@@ -117,22 +133,7 @@
         </Tabs>
 
 
-        <!-- 常用表达式 -->
-        <div class="common-expressions">
-          <h4>常用表达式：</h4>
-          <div class="expression-buttons">
-            <Button
-              v-for="(expr, key) in commonExpressions"
-              :key="key"
-              size="small"
-              type="primary"
-              ghost
-              @click="applyCommonExpression(expr.value)"
-            >
-              {{ expr.label }}
-            </Button>
-          </div>
-        </div>
+
       </div>
     </Modal>
   </div>
