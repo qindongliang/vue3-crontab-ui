@@ -390,12 +390,13 @@ onMounted(() => {
 
 .crontab-list {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 15px;
+  min-height: 32px;
 }
 
 .crontab-list-item {
-  margin-left: 8px;
+  margin-left: 12px;
   flex: 1;
   display: flex;
   align-items: center;
@@ -405,6 +406,7 @@ onMounted(() => {
 
 .item-text {
   display: inline-block;
+  margin: 0 4px;
   line-height: 32px;
   white-space: nowrap;
 }
@@ -412,6 +414,7 @@ onMounted(() => {
 .number-input {
   display: inline-block;
   width: 80px;
+  min-width: 80px;
 }
 
 .select-input {
@@ -423,5 +426,22 @@ onMounted(() => {
 .select-input-small {
   width: 120px;
   min-width: 100px;
+}
+
+/* 确保所有子元素垂直居中 */
+.crontab-list :deep(.ivu-radio-wrapper) {
+  align-items: center;
+  margin-right: 0;
+}
+
+/* 输入框和选择框的对齐优化 */
+.crontab-list :deep(.ivu-input-number),
+.crontab-list :deep(.ivu-select) {
+  vertical-align: middle;
+}
+
+/* 多选选择框的特殊处理 */
+.crontab-list-item .select-input {
+  align-items: flex-start;
 }
 </style>
