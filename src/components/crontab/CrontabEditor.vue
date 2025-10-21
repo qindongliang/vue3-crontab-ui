@@ -43,6 +43,21 @@
           <Input v-model="internalValue" readonly style="font-family: monospace; font-weight: bold;" />
         </div>
       </div>
+      <!-- 起止时间 -->
+      <div class="time-range-picker">
+        <h4>起止时间：</h4>
+        <DatePicker
+          :model-value="dateRange"
+          type="datetimerange"
+          format="yyyy-MM-dd HH:mm:ss"
+          confirm
+          placeholder="选择起止时间"
+          style="width: 300px"
+          transfer
+          @on-change="handleDateChange"
+          @on-clear="handleClear"
+        />
+      </div>
       <div class="crontab-content">
 
         <!-- Tab 页面 -->
@@ -141,17 +156,40 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { Input, Modal, Tabs, TabPane, Button, Icon, Divider, Message } from 'view-ui-plus'
+import { Input, Modal, Tabs, TabPane, Button, Icon, DatePicker, Message } from 'view-ui-plus'
 import TimeUnitTab from './TimeUnitTab.vue'
 import DayWeekTab from './DayWeekTab.vue'
-import { timeI18n} from '../../utils/common.ts'
+import { timeI18n } from '../../utils/common.ts'
 import type { CrontabEditorProps } from '@/types/crontab'
+
+// 获取当前日期和100年后的日期
+const getInitialDateRange = () => {
+  const startDate = new Date()
+  startDate.setHours(0, 0, 0, 0)
+  const endDate = new Date()
+  endDate.setFullYear(endDate.getFullYear() + 100)
+  endDate.setHours(0, 0, 0, 0)
+  return [startDate, endDate]
+}
 
 const props = withDefaults(defineProps<CrontabEditorProps>(), {
   modelValue: '0 0 * * * ? *', // 默认每小时执行
   disabled: false,
   placeholder: '请选择 CRONTAB 表达式'
 })
+
+const dateRange = ref(getInitialDateRange())
+
+const handleClear = (newDates: string[]) => {
+  dateRange.value=getInitialDateRange()
+}
+const handleDateChange = (newDates: string[]) => {
+  if (newDates && newDates.length === 2 && newDates[0] && newDates[1]) {
+    dateRange.value = [new Date(newDates[0]), new Date(newDates[1])]
+  } else {
+    dateRange.value = [null, null]
+  }
+}
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
@@ -362,6 +400,15 @@ watch(
 
 .expression-display {
   margin: 10px 0;
+}
+
+.time-range-picker {
+  margin-top: 20px;
+}
+
+.time-range-picker h4 {
+  margin: 10px 0;
+  color: #333;
 }
 
 .common-expressions {
