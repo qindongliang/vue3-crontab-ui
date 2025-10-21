@@ -338,8 +338,8 @@ const updateRadioTime = (value: string) => {
       weekRef.value = '?'
       break
     case 'lastWeekdayOfMonth':
-      dayRef.value = `${lastWeekdayRef.value}L`
-      weekRef.value = '?'
+      dayRef.value = '?'
+      weekRef.value = `${lastWeekdayRef.value}L`
       break
     case 'beforeMonthEnd':
       dayRef.value = `-${beforeMonthEndRef.value}`
