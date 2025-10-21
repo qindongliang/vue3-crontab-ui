@@ -78,18 +78,6 @@ const specificWeek = [
   { label: 'SAT', value: 'SAT' }
 ]
 
-const lastWeeks = [
-  { label: '周日', value: '?' },
-  { label: '周一', value: '2L' },
-  { label: '周二', value: '3L' },
-  { label: '周三', value: '4L' },
-  { label: '周四', value: '5L' },
-  { label: '周五', value: '6L' },
-  { label: '周六', value: '7L' }
-]
-
-
-
 // 工具函数
 const isStr = (str: string, v: string) => {
   let flag
@@ -113,15 +101,4 @@ const isWeek = (str: string) => {
   return flag
 }
 
-const range = (start: number, stop: number, step = 1) =>
-  Array.from({ length: Math.floor((stop - start) / step) + 1 }, (_, i) => start + i * step)
-
-const specificList = {
-  60: range(0, 59).map(v => ({ value: v + '', label: v + '' })),
-  24: range(0, 23).map(v => ({ value: v + '', label: v + '' })),
-  12: range(1, 12).map(v => ({ value: v + '', label: v + '' })),
-  year: range(2018, 2030).map(v => ({ value: v + '', label: v + '' })),
-  day: range(1, 31).map(v => ({ value: v + '', label: v + '' }))
-}
-
-export { isStr, isWeek, timeI18n, week, specificWeek, lastWeeks, specificList}
+export { isStr, isWeek, timeI18n, week, specificWeek }

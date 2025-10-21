@@ -10,25 +10,8 @@ export interface CrontabState {
   year: string
 }
 
-export interface TimeUnitConfig {
-  min: number
-  max: number
-  special: number | string
-  label: string
-}
-
-export interface TimeUnitProps {
-  modelValue: string
-  config: TimeUnitConfig
-}
-
 export interface CrontabEditorProps {
   modelValue?: string
   disabled?: boolean
   placeholder?: string
-}
-
-export type CrontabEmits = {
-  'update:modelValue': [value: string]
-  change: [value: string]
 }

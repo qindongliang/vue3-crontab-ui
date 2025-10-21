@@ -202,35 +202,31 @@ const emit = defineEmits<{
 }>()
 
 // 常用 CRONTAB 表达式常量定义
-const CRONTAB_EVERY_SECOND = '* * * * * ? *'
-//分钟
-const CRONTAB_EVERY_MINUTE = '0 * * * * ? *'
-const CRONTAB_EVERY_5_MINUTE = '0 5 * * * ? *'
-const CRONTAB_EVERY_10_MINUTE = '0 10 * * * ? *'
-const CRONTAB_EVERY_20_MINUTE = '0 20 * * * ? *'
-const CRONTAB_EVERY_30_MINUTE = '0 30 * * * ? *'
-//小时
-const CRONTAB_EVERY_HOUR = '0 0 * * * ? *'
-const CRONTAB_EVERY_2_HOUR = '0 0 0/2 * * ? *'
-const CRONTAB_EVERY_6_HOUR = '0 0 0/6 * * ? *'
-const CRONTAB_EVERY_DAY = '0 0 0 * * ? *'
-//星期
-const CRONTAB_EVERY_WEEK_MONDAY = '0 0 0 ? * MON *'
-const CRONTAB_EVERY_WEEK_TUESDAY = '0 0 0 ? * TUE *'
-const CRONTAB_EVERY_WEEK_WEDNESDAY = '0 0 0 ? * WED *'
-const CRONTAB_EVERY_WEEK_THURSDAY = '0 0 0 ? * THU *'
-const CRONTAB_EVERY_WEEK_FRIDAY = '0 0 0 ? * FRI *'
-const CRONTAB_EVERY_WEEK_SATURDAY = '0 0 0 ? * SAT *'
-const CRONTAB_EVERY_WEEK_SUNDAY = '0 0 0 ? * SUN *'
-//季度
-const CRONTAB_EVERY_3_MONDAY_FIRST = '0 0 0 1 1/3 ? *'
-const CRONTAB_EVERY_6_MONDAY_FIRST = '0 0 0 1 1/6 ? *'
-const CRONTAB_EVERY_MONTH_FIRST = '0 0 0 1 * ? *'
-const CRONTAB_EVERY_YEAR_FIRST = '0 0 0 1 1 ? *'
+const CRON_EXPRESSIONS = {
+  EVERY_SECOND: '* * * * * ? *',
+  EVERY_MINUTE: '0 * * * * ? *',
+  EVERY_5_MINUTE: '0 5 * * * ? *',
+  EVERY_10_MINUTE: '0 10 * * * ? *',
+  EVERY_20_MINUTE: '0 20 * * * ? *',
+  EVERY_30_MINUTE: '0 30 * * * ? *',
+  EVERY_HOUR: '0 0 * * * ? *',
+  EVERY_2_HOUR: '0 0 0/2 * * ? *',
+  EVERY_6_HOUR: '0 0 0/6 * * ? *',
+  EVERY_DAY: '0 0 0 * * ? *',
+  EVERY_WEEK_MONDAY: '0 0 0 ? * MON *',
+  EVERY_WEEK_TUESDAY: '0 0 0 ? * TUE *',
+  EVERY_WEEK_WEDNESDAY: '0 0 0 ? * WED *',
+  EVERY_WEEK_THURSDAY: '0 0 0 ? * THU *',
+  EVERY_WEEK_FRIDAY: '0 0 0 ? * FRI *',
+  EVERY_WEEK_SATURDAY: '0 0 0 ? * SAT *',
+  EVERY_WEEK_SUNDAY: '0 0 0 ? * SUN *',
+  EVERY_3_MONDAY_FIRST: '0 0 0 1 1/3 ? *',
+  EVERY_6_MONDAY_FIRST: '0 0 0 1 1/6 ? *',
+  EVERY_MONTH_FIRST: '0 0 0 1 * ? *',
+  EVERY_YEAR_FIRST: '0 0 0 1 1 ? *'
+} as const
 
 
-const showModal = ref(false)
-const activeTab = ref('minute')
 // 解析 CRONTAB 表达式
 const parseCrontab = (crontab: string) => {
   const parts = crontab.trim().split(/\s+/)
@@ -251,6 +247,8 @@ const parseCrontab = (crontab: string) => {
   }
 }
 
+const showModal = ref(false)
+const activeTab = ref('minute')
 
 // CRONTAB 状态 - 默认每小时执行
 const crontabState = ref({
@@ -277,27 +275,27 @@ const displayValue = computed(() => props.modelValue)
 
 // 常用表达式列表
 const COMMON_EXPRESSIONS = [
-  // { label: '每秒', value: CRONTAB_EVERY_SECOND },
-  { label: '每分钟', value: CRONTAB_EVERY_MINUTE },
-  { label: '每5分钟', value: CRONTAB_EVERY_5_MINUTE },
-  { label: '每10分钟', value: CRONTAB_EVERY_10_MINUTE },
-  { label: '每20分钟', value: CRONTAB_EVERY_20_MINUTE },
-  { label: '每30分钟', value: CRONTAB_EVERY_30_MINUTE },
-  { label: '每小时', value: CRONTAB_EVERY_HOUR },
-  { label: '每2小时', value: CRONTAB_EVERY_2_HOUR },
-  { label: '每6小时', value: CRONTAB_EVERY_6_HOUR },
-  { label: '每天', value: CRONTAB_EVERY_DAY },
-  { label: '每周一', value: CRONTAB_EVERY_WEEK_MONDAY },
-  { label: '每周二', value: CRONTAB_EVERY_WEEK_TUESDAY },
-  { label: '每周三', value: CRONTAB_EVERY_WEEK_WEDNESDAY },
-  { label: '每周四', value: CRONTAB_EVERY_WEEK_THURSDAY },
-  { label: '每周五', value: CRONTAB_EVERY_WEEK_FRIDAY },
-  { label: '每周六', value: CRONTAB_EVERY_WEEK_SATURDAY },
-  { label: '每周日', value: CRONTAB_EVERY_WEEK_SUNDAY },
-  { label: '每月', value: CRONTAB_EVERY_MONTH_FIRST },
-  { label: '每季度', value: CRONTAB_EVERY_3_MONDAY_FIRST },
-  { label: '每半年', value: CRONTAB_EVERY_6_MONDAY_FIRST },
-  { label: '每年', value: CRONTAB_EVERY_YEAR_FIRST }
+  // { label: '每秒', value: CRON_EXPRESSIONS.EVERY_SECOND },
+  { label: '每分钟', value: CRON_EXPRESSIONS.EVERY_MINUTE },
+  { label: '每5分钟', value: CRON_EXPRESSIONS.EVERY_5_MINUTE },
+  { label: '每10分钟', value: CRON_EXPRESSIONS.EVERY_10_MINUTE },
+  { label: '每20分钟', value: CRON_EXPRESSIONS.EVERY_20_MINUTE },
+  { label: '每30分钟', value: CRON_EXPRESSIONS.EVERY_30_MINUTE },
+  { label: '每小时', value: CRON_EXPRESSIONS.EVERY_HOUR },
+  { label: '每2小时', value: CRON_EXPRESSIONS.EVERY_2_HOUR },
+  { label: '每6小时', value: CRON_EXPRESSIONS.EVERY_6_HOUR },
+  { label: '每天', value: CRON_EXPRESSIONS.EVERY_DAY },
+  { label: '每周一', value: CRON_EXPRESSIONS.EVERY_WEEK_MONDAY },
+  { label: '每周二', value: CRON_EXPRESSIONS.EVERY_WEEK_TUESDAY },
+  { label: '每周三', value: CRON_EXPRESSIONS.EVERY_WEEK_WEDNESDAY },
+  { label: '每周四', value: CRON_EXPRESSIONS.EVERY_WEEK_THURSDAY },
+  { label: '每周五', value: CRON_EXPRESSIONS.EVERY_WEEK_FRIDAY },
+  { label: '每周六', value: CRON_EXPRESSIONS.EVERY_WEEK_SATURDAY },
+  { label: '每周日', value: CRON_EXPRESSIONS.EVERY_WEEK_SUNDAY },
+  { label: '每月', value: CRON_EXPRESSIONS.EVERY_MONTH_FIRST },
+  { label: '每季度', value: CRON_EXPRESSIONS.EVERY_3_MONDAY_FIRST },
+  { label: '每半年', value: CRON_EXPRESSIONS.EVERY_6_MONDAY_FIRST },
+  { label: '每年', value: CRON_EXPRESSIONS.EVERY_YEAR_FIRST }
 ] as const
 
 // 应用常用表达式
