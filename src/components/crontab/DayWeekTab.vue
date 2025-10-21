@@ -301,9 +301,9 @@ const analyticalValue = () => {
   } else if ($weekVal.includes(',') && $dayVal === '?') {
     radioRef.value = 'specificWeek'
     WkspecificWeekRef.value = $weekVal.split(',')
-  } else if ($dayVal.includes('-') && !$dayVal.includes('/')) {
+  } else if ($dayVal.includes('L-')) {
     radioRef.value = 'beforeMonthEnd'
-    beforeMonthEndRef.value = parseInt($dayVal.replace('-', ''))
+    beforeMonthEndRef.value = parseInt($dayVal.replace('L-', ''))
   }
 }
 
@@ -345,7 +345,7 @@ const updateRadioTime = (value: string) => {
       weekRef.value = `${lastWeekdayRef.value}L`
       break
     case 'beforeMonthEnd':
-      dayRef.value = `-${beforeMonthEndRef.value}`
+      dayRef.value = `L-${beforeMonthEndRef.value}`
       weekRef.value = '?'
       break
     case 'nearestWorkday':
