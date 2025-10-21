@@ -4,16 +4,12 @@
       <!-- 每一天 -->
       <div class="crontab-list">
         <Radio label="everyDay">每一天</Radio>
-        <div class="crontab-list-item">
-          <div>每一天</div>
-        </div>
       </div>
 
       <!-- 每隔天数执行，从星期开始 -->
       <div class="crontab-list">
         <Radio label="intervalWeekDay">每隔</Radio>
         <div class="crontab-list-item">
-          <div class="item-text">每隔</div>
           <div class="number-input">
             <InputNumber
               :min="1"
@@ -42,7 +38,6 @@
       <div class="crontab-list">
         <Radio label="intervalDay">每隔</Radio>
         <div class="crontab-list-item">
-          <div class="item-text">每隔</div>
           <div class="number-input">
             <InputNumber
               :min="1"
@@ -68,7 +63,6 @@
       <div class="crontab-list">
         <Radio label="specificWeek">具体星期几(可多选)</Radio>
         <div class="crontab-list-item">
-          <div>具体星期几(可多选)</div>
           <div class="select-input">
             <Select
               multiple
@@ -87,7 +81,6 @@
       <div class="crontab-list">
         <Radio label="specificDay">具体天数(可多选)</Radio>
         <div class="crontab-list-item">
-          <div>具体天数(可多选)</div>
           <div class="select-input">
             <Select
               multiple
@@ -105,24 +98,17 @@
       <!-- 在这个月的最后一天 -->
       <div class="crontab-list">
         <Radio label="lastDayOfMonth">在这个月的最后一天</Radio>
-        <div class="crontab-list-item">
-          <div>在这个月的最后一天</div>
-        </div>
       </div>
 
       <!-- 在这个月的最后一个工作日 -->
       <div class="crontab-list">
         <Radio label="lastWorkdayOfMonth">在这个月的最后一个工作日</Radio>
-        <div class="crontab-list-item">
-          <div>在这个月的最后一个工作日</div>
-        </div>
       </div>
 
       <!-- 在这个月的最后一个星期几 -->
       <div class="crontab-list">
         <Radio label="lastWeekdayOfMonth">在这个月的最后一个</Radio>
         <div class="crontab-list-item">
-          <div class="item-text">在这个月的最后一个</div>
           <div class="select-input-small">
             <Select
               v-model="lastWeekdayRef"
@@ -149,7 +135,6 @@
               @on-change="onBeforeMonthEnd"
             />
           </div>
-          <div class="item-text">在本月底前</div>
         </div>
       </div>
 
@@ -157,7 +142,6 @@
       <div class="crontab-list">
         <Radio label="nearestWorkday">最近的工作日（周一至周五）至本月</Radio>
         <div class="crontab-list-item">
-          <div class="item-text">最近的工作日（周一至周五）至本月</div>
           <div class="number-input">
             <InputNumber
               :min="1"
@@ -174,7 +158,6 @@
       <div class="crontab-list">
         <Radio label="nthWeekdayOfMonth">在这个月的第</Radio>
         <div class="crontab-list-item">
-          <div class="item-text">在这个月的第</div>
           <div class="number-input">
             <InputNumber
               :min="1"
@@ -228,7 +211,7 @@ const weekRef = ref('?')
 
 // 每隔天数执行，从星期开始
 const intervalWeekDayRef = ref(2)
-const intervalWeekStartRef = ref(1)
+const intervalWeekStartRef = ref(2)
 
 // 每隔天数执行，从某天开始
 const intervalDayStartRef = ref(1)
