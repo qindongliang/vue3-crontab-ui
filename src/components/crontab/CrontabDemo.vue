@@ -41,7 +41,7 @@
 import { ref } from 'vue'
 import { Card, Icon, Message } from 'view-ui-plus'
 import CrontabEditor from '@/components/crontab/CrontabEditor.vue'
-import {CRONTAB_EVERY_HOUR} from '../../utils/common.ts'
+const CRONTAB_EVERY_HOUR="0 0 * * * ? *"
 // 基础用法
 const crontabValue = ref(CRONTAB_EVERY_HOUR)
 const changeLogs = ref<string[]>([])

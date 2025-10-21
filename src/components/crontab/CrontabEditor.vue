@@ -144,10 +144,7 @@ import { ref, computed, watch } from 'vue'
 import { Input, Modal, Tabs, TabPane, Button, Icon, Divider, Message } from 'view-ui-plus'
 import TimeUnitTab from './TimeUnitTab.vue'
 import DayWeekTab from './DayWeekTab.vue'
-import {CRONTAB_EVERY_SECOND,CRONTAB_EVERY_MINUTE,
-  CRONTAB_EVERY_HOUR,CRONTAB_EVERY_DAY,CRONTAB_EVERY_WEEK_MONDAY,CRONTAB_EVERY_MONTH_FIRST,
-    CRONTAB_EVERY_YEAR_FIRST
-  , timeI18n,} from '../../utils/common.ts'
+import { timeI18n} from '../../utils/common.ts'
 import type { CrontabEditorProps } from '@/types/crontab'
 
 const props = withDefaults(defineProps<CrontabEditorProps>(), {
@@ -161,6 +158,32 @@ const emit = defineEmits<{
   change: [value: string]
 }>()
 
+// 常用 CRONTAB 表达式常量定义
+const CRONTAB_EVERY_SECOND = '* * * * * ? *'
+//分钟
+const CRONTAB_EVERY_MINUTE = '0 * * * * ? *'
+const CRONTAB_EVERY_5_MINUTE = '0 5 * * * ? *'
+const CRONTAB_EVERY_10_MINUTE = '0 10 * * * ? *'
+const CRONTAB_EVERY_20_MINUTE = '0 20 * * * ? *'
+const CRONTAB_EVERY_30_MINUTE = '0 30 * * * ? *'
+//小时
+const CRONTAB_EVERY_HOUR = '0 0 * * * ? *'
+const CRONTAB_EVERY_2_HOUR = '0 0 0/2 * * ? *'
+const CRONTAB_EVERY_6_HOUR = '0 0 0/6 * * ? *'
+const CRONTAB_EVERY_DAY = '0 0 0 * * ? *'
+//星期
+const CRONTAB_EVERY_WEEK_MONDAY = '0 0 0 ? * MON *'
+const CRONTAB_EVERY_WEEK_TUESDAY = '0 0 0 ? * TUE *'
+const CRONTAB_EVERY_WEEK_WEDNESDAY = '0 0 0 ? * WED *'
+const CRONTAB_EVERY_WEEK_THURSDAY = '0 0 0 ? * THU *'
+const CRONTAB_EVERY_WEEK_FRIDAY = '0 0 0 ? * FRI *'
+const CRONTAB_EVERY_WEEK_SATURDAY = '0 0 0 ? * SAT *'
+const CRONTAB_EVERY_WEEK_SUNDAY = '0 0 0 ? * SUN *'
+//季度
+const CRONTAB_EVERY_3_MONDAY_FIRST = '0 0 0 1 1/3 ? *'
+const CRONTAB_EVERY_6_MONDAY_FIRST = '0 0 0 1 1/6 ? *'
+const CRONTAB_EVERY_MONTH_FIRST = '0 0 0 1 * ? *'
+const CRONTAB_EVERY_YEAR_FIRST = '0 0 0 1 1 ? *'
 
 
 const showModal = ref(false)
@@ -211,13 +234,27 @@ const displayValue = computed(() => props.modelValue)
 
 // 常用表达式列表
 const COMMON_EXPRESSIONS = [
-  { label: '每秒', value: CRONTAB_EVERY_SECOND },
+  // { label: '每秒', value: CRONTAB_EVERY_SECOND },
   { label: '每分钟', value: CRONTAB_EVERY_MINUTE },
+  { label: '每5分钟', value: CRONTAB_EVERY_5_MINUTE },
+  { label: '每10分钟', value: CRONTAB_EVERY_10_MINUTE },
+  { label: '每20分钟', value: CRONTAB_EVERY_20_MINUTE },
+  { label: '每30分钟', value: CRONTAB_EVERY_30_MINUTE },
   { label: '每小时', value: CRONTAB_EVERY_HOUR },
+  { label: '每2小时', value: CRONTAB_EVERY_2_HOUR },
+  { label: '每6小时', value: CRONTAB_EVERY_6_HOUR },
   { label: '每天', value: CRONTAB_EVERY_DAY },
   { label: '每周一', value: CRONTAB_EVERY_WEEK_MONDAY },
-  { label: '每月1号', value: CRONTAB_EVERY_MONTH_FIRST },
-  { label: '每年1月1号', value: CRONTAB_EVERY_YEAR_FIRST }
+  { label: '每周二', value: CRONTAB_EVERY_WEEK_TUESDAY },
+  { label: '每周三', value: CRONTAB_EVERY_WEEK_WEDNESDAY },
+  { label: '每周四', value: CRONTAB_EVERY_WEEK_THURSDAY },
+  { label: '每周五', value: CRONTAB_EVERY_WEEK_FRIDAY },
+  { label: '每周六', value: CRONTAB_EVERY_WEEK_SATURDAY },
+  { label: '每周日', value: CRONTAB_EVERY_WEEK_MONDAY },
+  { label: '每月', value: CRONTAB_EVERY_MONTH_FIRST },
+  { label: '每季度', value: CRONTAB_EVERY_3_MONDAY_FIRST },
+  { label: '每半年', value: CRONTAB_EVERY_6_MONDAY_FIRST },
+  { label: '每年', value: CRONTAB_EVERY_YEAR_FIRST }
 ] as const
 
 // 应用常用表达式
