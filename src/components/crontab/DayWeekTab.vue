@@ -66,13 +66,14 @@
           <div class="select-input">
             <Select
               multiple
-              :options="specificWeekOptions"
               placeholder="请选择具体星期"
               v-model="WkspecificWeekRef"
               @on-change="onSpecificWeek"
               :max-tag-count="3"
               transfer
-            />
+            >
+              <Option v-for="item in specificWeekOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
           </div>
         </div>
       </div>
@@ -84,13 +85,14 @@
           <div class="select-input">
             <Select
               multiple
-              :options="dayOptions"
               placeholder="请选择具体天数"
               v-model="WkspecificDayRef"
               @on-change="onSpecificDay"
               :max-tag-count="3"
               transfer
-            />
+            >
+              <Option v-for="item in dayOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
           </div>
         </div>
       </div>
