@@ -191,9 +191,14 @@ const handleDateChange = (newDates: string[]) => {
   }
 }
 
+interface CrontabChangeData {
+  cron: string
+  dateRange: (Date | null)[] | undefined
+}
+
 const emit = defineEmits<{
   'update:modelValue': [value: string]
-  change: [value: string]
+  change: [value: CrontabChangeData]
 }>()
 
 // 常用 CRONTAB 表达式常量定义
@@ -316,7 +321,7 @@ const handleConfirm = () => {
     }
 
     emit('update:modelValue', expression)
-    emit('change', expression)
+    emit('change', { cron: expression, dateRange: dateRange.value })
     showModal.value = false
     Message.success('表达式已更新')
   } catch (error) {

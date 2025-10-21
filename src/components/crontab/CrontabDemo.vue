@@ -21,15 +21,8 @@
             />
           </div>
           <div class="result-display">
-            <strong>当前值：</strong>{{ crontabValue }}
-          </div>
-          <div class="result-display" v-if="changeLogs.length > 0">
-            <strong>变化历史：</strong>
-            <ul>
-              <li v-for="(log, index) in changeLogs" :key="index">
-                {{ log }}
-              </li>
-            </ul>
+            <p>当前crontab值：</p>{{ crontabValue }}
+            <p v-if="dateRange">当前时间值：<p/>{{ dateRange[0] }} 到 {{ dateRange[1] }}</p>
           </div>
         </div>
       </div>
@@ -39,21 +32,23 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import dayjs from 'dayjs';
 import { Card, Icon, Message } from 'view-ui-plus'
 import CrontabEditor from '@/components/crontab/CrontabEditor.vue'
 const CRONTAB_EVERY_HOUR="0 0 * * * ? *"
 // 基础用法
 const crontabValue = ref(CRONTAB_EVERY_HOUR)
-const changeLogs = ref<string[]>([])
+const dateRange = ref<(Date | string)[] | undefined>()
 
 // 处理表达式变化
-const handleCrontabChange = (value: string) => {
-  const timestamp = new Date().toLocaleTimeString()
-  changeLogs.value.unshift(`[${timestamp}] 表达式变更为：${value}`)
-
-  // 保持最多10条记录
-  if (changeLogs.value.length > 10) {
-    changeLogs.value = changeLogs.value.slice(0, 10)
+const handleCrontabChange = (data: { cron: string; dateRange: (Date | null)[] | undefined }) => {
+  crontabValue.value = data.cron
+  if (data.dateRange && data.dateRange[0] && data.dateRange[1]) {
+    let fmtArrDate = [
+      dayjs(data.dateRange[0]).format("YYYY-MM-DD HH:mm:ss"),
+      dayjs(data.dateRange[1]).format("YYYY-MM-DD HH:mm:ss")
+    ]
+    dateRange.value = fmtArrDate
   }
 }
 </script>
