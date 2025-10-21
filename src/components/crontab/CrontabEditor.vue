@@ -25,7 +25,7 @@
         <h4>常用表达式：</h4>
         <div class="expression-buttons">
           <Button
-              v-for="(expr, key) in commonExpressions"
+              v-for="(expr, key) in COMMON_EXPRESSIONS"
               :key="key"
               size="small"
               type="primary"
@@ -148,7 +148,7 @@ import { timeI18n } from './common'
 import type { CrontabEditorProps } from '@/types/crontab'
 
 const props = withDefaults(defineProps<CrontabEditorProps>(), {
-  modelValue: '* * * * * ? *',
+  modelValue: '0 0 * * * ? *', // 默认每小时执行
   disabled: false,
   placeholder: '请选择 CRONTAB 表达式'
 })
@@ -158,39 +158,17 @@ const emit = defineEmits<{
   change: [value: string]
 }>()
 
+// 常用 CRONTAB 表达式常量定义
+const CRONTAB_EVERY_SECOND = '* * * * * ? *'
+const CRONTAB_EVERY_MINUTE = '0 * * * * ? *'
+const CRONTAB_EVERY_HOUR = '0 0 * * * ? *'
+const CRONTAB_EVERY_DAY = '0 0 0 * * ? *'
+const CRONTAB_EVERY_WEEK_MONDAY = '0 0 0 ? * 2 *'
+const CRONTAB_EVERY_MONTH_FIRST = '0 0 0 1 * ? *'
+const CRONTAB_EVERY_YEAR_FIRST = '0 0 0 1 1 ? *'
+
 const showModal = ref(false)
 const activeTab = ref('second')
-
-// CRONTAB 状态
-const crontabState = ref({
-  second: '*',
-  minute: '*',
-  hour: '*',
-  day: '*',
-  month: '*',
-  week: '?',
-  year: '*'
-})
-
-// 计算内部值
-const internalValue = computed(() => {
-  return `${crontabState.value.second} ${crontabState.value.minute} ${crontabState.value.hour} ${crontabState.value.day} ${crontabState.value.month} ${crontabState.value.week} ${crontabState.value.year}`
-})
-
-// 显示值
-const displayValue = computed(() => props.modelValue)
-
-// 常用表达式
-const commonExpressions = [
-  { label: '每秒', value: '* * * * * ? *' },
-  { label: '每分钟', value: '0 * * * * ? *' },
-  { label: '每小时', value: '0 0 * * * ? *' },
-  { label: '每天', value: '0 0 0 * * ? *' },
-  { label: '每周一', value: '0 0 0 ? * 2 *' },
-  { label: '每月1号', value: '0 0 0 1 * ? *' },
-  { label: '每年1月1号', value: '0 0 0 1 1 ? *' }
-]
-
 // 解析 CRONTAB 表达式
 const parseCrontab = (crontab: string) => {
   const parts = crontab.trim().split(/\s+/)
@@ -210,6 +188,33 @@ const parseCrontab = (crontab: string) => {
     year: parts[6] || '*'
   }
 }
+
+
+// CRONTAB 状态 - 默认每小时执行
+const crontabState = ref(parseCrontab(CRONTAB_EVERY_HOUR))
+
+// 计算内部值
+const internalValue = computed(() => {
+  return `${crontabState.value.second} ${crontabState.value.minute} ${crontabState.value.hour} ${crontabState.value.day} ${crontabState.value.month} ${crontabState.value.week} ${crontabState.value.year}`
+})
+
+// 显示值
+const displayValue = computed(() => props.modelValue)
+
+
+
+
+
+// 常用表达式列表
+const COMMON_EXPRESSIONS = [
+  { label: '每秒', value: CRONTAB_EVERY_SECOND },
+  { label: '每分钟', value: CRONTAB_EVERY_MINUTE },
+  { label: '每小时', value: CRONTAB_EVERY_HOUR },
+  { label: '每天', value: CRONTAB_EVERY_DAY },
+  { label: '每周一', value: CRONTAB_EVERY_WEEK_MONDAY },
+  { label: '每月1号', value: CRONTAB_EVERY_MONTH_FIRST },
+  { label: '每年1月1号', value: CRONTAB_EVERY_YEAR_FIRST }
+] as const
 
 // 应用常用表达式
 const applyCommonExpression = (expression: string) => {
@@ -248,8 +253,8 @@ const handleCancel = () => {
     try {
       crontabState.value = parseCrontab(props.modelValue)
     } catch (error) {
-      // 解析失败，使用默认值
-      crontabState.value = parseCrontab('* * * * * ? *')
+      // 解析失败，使用默认值（每小时执行）
+      crontabState.value = parseCrontab('0 0 * * * ? *')
     }
   }
   showModal.value = false
@@ -264,7 +269,7 @@ watch(
         crontabState.value = parseCrontab(newValue)
       } catch (error) {
         // 解析失败，使用默认值
-        crontabState.value = parseCrontab('* * * * * ? *')
+        crontabState.value = parseCrontab('0 0 * * * ? *')
       }
     }
   },
@@ -279,7 +284,7 @@ watch(
       try {
         crontabState.value = parseCrontab(props.modelValue)
       } catch (error) {
-        crontabState.value = parseCrontab('* * * * * ? *')
+        crontabState.value = parseCrontab('0 0 * * * ? *')
       }
     }
   }
