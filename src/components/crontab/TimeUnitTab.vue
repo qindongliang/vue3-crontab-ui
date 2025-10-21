@@ -83,7 +83,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { RadioGroup, Radio, InputNumber, Select, Option } from 'view-ui-plus'
-import { isStr } from './common'
+import { isStr } from '../../utils/common.ts'
 import type { ICrontabI18n } from './types'
 
 interface Props {

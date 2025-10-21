@@ -144,7 +144,10 @@ import { ref, computed, watch } from 'vue'
 import { Input, Modal, Tabs, TabPane, Button, Icon, Divider, Message } from 'view-ui-plus'
 import TimeUnitTab from './TimeUnitTab.vue'
 import DayWeekTab from './DayWeekTab.vue'
-import { timeI18n } from './common'
+import {CRONTAB_EVERY_SECOND,CRONTAB_EVERY_MINUTE,
+  CRONTAB_EVERY_HOUR,CRONTAB_EVERY_DAY,CRONTAB_EVERY_WEEK_MONDAY,CRONTAB_EVERY_MONTH_FIRST,
+    CRONTAB_EVERY_YEAR_FIRST
+  , timeI18n,} from '../../utils/common.ts'
 import type { CrontabEditorProps } from '@/types/crontab'
 
 const props = withDefaults(defineProps<CrontabEditorProps>(), {
@@ -158,14 +161,7 @@ const emit = defineEmits<{
   change: [value: string]
 }>()
 
-// 常用 CRONTAB 表达式常量定义
-const CRONTAB_EVERY_SECOND = '* * * * * ? *'
-const CRONTAB_EVERY_MINUTE = '0 * * * * ? *'
-const CRONTAB_EVERY_HOUR = '0 0 * * * ? *'
-const CRONTAB_EVERY_DAY = '0 0 0 * * ? *'
-const CRONTAB_EVERY_WEEK_MONDAY = '0 0 0 ? * 2 *'
-const CRONTAB_EVERY_MONTH_FIRST = '0 0 0 1 * ? *'
-const CRONTAB_EVERY_YEAR_FIRST = '0 0 0 1 1 ? *'
+
 
 const showModal = ref(false)
 const activeTab = ref('second')
@@ -191,7 +187,15 @@ const parseCrontab = (crontab: string) => {
 
 
 // CRONTAB 状态 - 默认每小时执行
-const crontabState = ref(parseCrontab(CRONTAB_EVERY_HOUR))
+const crontabState = ref({
+  second: '*',
+  minute: '*',
+  hour: '*',
+  day: '*',
+  month: '*',
+  week: '?',
+  year: '*'
+})
 
 // 计算内部值
 const internalValue = computed(() => {

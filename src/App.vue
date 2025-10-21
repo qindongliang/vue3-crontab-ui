@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import CrontabDemo from './views/CrontabDemo.vue'
+import CrontabDemo from './components/crontab/CrontabDemo.vue'
 
 const activeName = ref('1')
 </script>

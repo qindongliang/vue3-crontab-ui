@@ -88,6 +88,17 @@ const lastWeeks = [
   { label: '周六', value: '7L' }
 ]
 
+
+// 常用 CRONTAB 表达式常量定义
+const CRONTAB_EVERY_SECOND = '* * * * * ? *'
+const CRONTAB_EVERY_MINUTE = '0 * * * * ? *'
+const CRONTAB_EVERY_HOUR = '0 0 * * * ? *'
+const CRONTAB_EVERY_DAY = '0 0 0 * * ? *'
+const CRONTAB_EVERY_WEEK_MONDAY = '0 0 0 ? * 2 *'
+const CRONTAB_EVERY_MONTH_FIRST = '0 0 0 1 * ? *'
+const CRONTAB_EVERY_YEAR_FIRST = '0 0 0 1 1 ? *'
+
+
 // 工具函数
 const isStr = (str: string, v: string) => {
   let flag
@@ -122,4 +133,7 @@ const specificList = {
   day: range(1, 31).map(v => ({ value: v + '', label: v + '' }))
 }
 
-export { isStr, isWeek, timeI18n, week, specificWeek, lastWeeks, specificList }
+export { isStr, isWeek, timeI18n, week, specificWeek, lastWeeks, specificList
+,CRONTAB_EVERY_SECOND,CRONTAB_EVERY_MINUTE,CRONTAB_EVERY_HOUR,CRONTAB_EVERY_DAY
+    ,CRONTAB_EVERY_WEEK_MONDAY,CRONTAB_EVERY_MONTH_FIRST,CRONTAB_EVERY_YEAR_FIRST
+}
