@@ -10,8 +10,6 @@
 
 基于 Vue 3 + View UI Plus 的功能强大 CRONTAB 表达式可视化编辑器
 
-[在线演示](https://qindongliang.github.io/vue3-crontab-ui/) | [开始使用](#安装和使用) | [API文档](#api文档)
-
 </div>
 
 ## ✨ 功能特性
