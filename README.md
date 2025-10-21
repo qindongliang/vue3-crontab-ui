@@ -8,11 +8,421 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.4.0-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-基于 Vue 3 + View UI Plus 的功能强大 CRONTAB 表达式可视化编辑器
+**A powerful CRONTAB expression visual editor based on Vue 3 + View UI Plus**
+
+[中文文档](#中文文档) | [English Documentation](#english-documentation)
 
 ![Demo Preview](images/demo.png)
 
 </div>
+
+---
+
+## English Documentation
+
+## ✨ Features
+
+### 🎯 Core Features
+- ✅ **Complete 7-bit CRONTAB expression support** (seconds, minutes, hours, days, months, weeks, years) - Note: Second-level scheduling is restricted by default but can be enabled
+- ✅ **Visual editing interface**: Intuitive tab-based operations
+- ✅ **Multiple operation modes**: Per unit, periodic, interval, specified value, unspecified
+- ✅ **Real-time expression preview**: Instant display of current expression
+- ✅ **Quick common expression selection**: 20+ preset commonly used templates
+
+### 🛠️ Advanced Features
+- ✅ **Start/end time picker**: Support for task execution time range settings
+- ✅ **Special date/week handling**: Support for special characters like L, W, #
+- ✅ **Smart default values**: Reasonable default settings for different time units
+- ✅ **Complete TypeScript support**: Type safety and intelligent hints
+- ✅ **Vue 3 Composition API**: Modern development experience
+
+### 🎨 User Experience
+- ✅ **Responsive design**: Adapts to various screen sizes
+- ✅ **Chinese localization**: Complete Chinese interface
+- ✅ **Keyboard friendly**: Support for keyboard navigation
+- ✅ **Error handling**: Expression validation and error prompts
+
+## 🚀 Tech Stack
+
+| Technology | Version | Description |
+|------------|---------|-------------|
+| **Vue** | 3.4.21 | Progressive JavaScript Framework |
+| **Vite** | 5.2.8 | Modern Front-end Build Tool |
+| **View UI Plus** | 1.3.15 | Enterprise Vue 3 UI Component Library |
+| **TypeScript** | 5.4.0 | JavaScript superset providing type safety |
+| **Day.js** | 1.11.18 | Lightweight date and time processing library |
+
+## 📦 Installation and Usage
+
+### Basic Usage
+
+```vue
+<template>
+  <div class="demo">
+    <CrontabEditor
+      v-model="crontabValue"
+      placeholder="Please select CRONTAB expression"
+      @change="handleCrontabChange"
+    />
+
+    <div class="result">
+      <p>Current expression: {{ crontabValue }}</p>
+      <p v-if="dateRange">Execution time: {{ dateRange[0] }} to {{ dateRange[1] }}</p>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import dayjs from 'dayjs'
+import { CrontabEditor } from '@/components/crontab'
+
+const crontabValue = ref('0 0 * * * ? *') // Default: execute every hour
+const dateRange = ref<string[]>()
+
+const handleCrontabChange = (data: { cron: string; dateRange?: (Date | null)[] | undefined }) => {
+  crontabValue.value = data.cron
+
+  // Handle time range
+  if (data.dateRange && data.dateRange[0] && data.dateRange[1]) {
+    dateRange.value = [
+      dayjs(data.dateRange[0]).format("YYYY-MM-DD HH:mm:ss"),
+      dayjs(data.dateRange[1]).format("YYYY-MM-DD HH:mm:ss")
+    ]
+  }
+
+  console.log('CRONTAB expression:', data.cron)
+  console.log('Time range:', dateRange.value)
+}
+</script>
+
+<style scoped>
+.demo {
+  padding: 20px;
+}
+
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  font-family: monospace;
+}
+</style>
+```
+
+### Advanced Usage
+
+```vue
+<template>
+  <CrontabEditor
+    v-model="advancedCrontab"
+    :disabled="isDisabled"
+    placeholder="Advanced CRONTAB expression"
+    @change="onAdvancedChange"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { CrontabEditor } from '@/components/crontab'
+
+const advancedCrontab = ref('0 0 0 ? * MON *') // Execute every Monday
+const isDisabled = ref(false)
+
+const onAdvancedChange = (data) => {
+  // Handle complex business logic
+  console.log('Expression change:', data)
+
+  // Add expression validation here
+  if (!validateExpression(data.cron)) {
+    console.error('Invalid CRONTAB expression')
+    return
+  }
+
+  // Save to backend or other processing
+  saveCrontabExpression(data)
+}
+
+const validateExpression = (expr: string): boolean => {
+  // Custom validation logic
+  return true
+}
+
+const saveCrontabExpression = async (data: any) => {
+  // Async save logic
+  try {
+    await api.saveCrontab(data)
+    console.log('Save successful')
+  } catch (error) {
+    console.error('Save failed:', error)
+  }
+}
+</script>
+```
+
+## 📖 API Documentation
+
+### Props
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `modelValue` | `string` | `'0 0 * * * ? *'` | CRONTAB expression value (two-way binding) |
+| `disabled` | `boolean` | `false` | Whether to disable the component |
+| `placeholder` | `string` | `'Please select CRONTAB expression'` | Input placeholder |
+
+### Events
+
+| Event | Parameter Type | Description |
+|-------|----------------|-------------|
+| `update:modelValue` | `(value: string)` | Triggered when expression value updates (v-model) |
+| `change` | `{ cron: string; dateRange?: (Date \| null)[] \| undefined }` | Triggered when user confirms expression change |
+
+#### Change Event Details
+
+```typescript
+interface CrontabChangeData {
+  cron: string           // CRONTAB expression
+  dateRange?: (Date | null)[] | undefined  // Start/end time array [startDate, endDate]
+}
+```
+
+## 🏗️ Component Architecture
+
+```
+src/
+├── components/
+│   └── crontab/
+│       ├── index.ts              # Component export entry
+│       ├── types.ts              # Type definitions
+│       ├── CrontabEditor.vue     # 🎯 Main editor component
+│       ├── TimeUnitTab.vue       # 📊 Common time unit Tab (seconds/minutes/hours/months/years)
+│       └── DayWeekTab.vue       # 📅 Date and week special handling Tab
+├── utils/
+│   └── common.ts                # 🔧 Utility functions and constants
+├── types/
+│   └── crontab.ts              # 📝 CRONTAB related type definitions
+└── styles/
+    └── main.css                # 🎨 Global styles
+```
+
+## 📋 Expression Format Description
+
+### Standard 7-bit Format
+
+```
+┌── Seconds (0-59)
+│  ┌── Minutes (0-59)
+│  │  ┌── Hours (0-23)
+│  │  │  ┌── Day (1-31)
+│  │  │  │  ┌── Month (1-12)
+│  │  │  │  │  ┌── Week (1-7, 1=Monday, 7=Sunday)
+│  │  │  │  │  │  ┌── Year (2025-2130)
+*  *  *  *  *  *  *
+```
+
+### Special Characters
+
+| Character | Description | Example |
+|-----------|-------------|---------|
+| `*` | Any value | `*` Every minute |
+| `?` | Unspecified (only for day and week) | `?` Unspecified date |
+| `-` | Range | `1-5` 1st to 5th |
+| `,` | List | `1,3,5` 1st, 3rd, 5th |
+| `/` | Step | `0/15` Every 15 minutes |
+| `L` | Last | `L` Last day of month |
+| `W` | Workday | `15W` Nearest workday to 15th |
+| `#` | Nth weekday | `1#2` Second Monday |
+
+### 🎯 Common Expression Library
+
+| Expression | Description | Notes |
+|------------|-------------|-------|
+| `0 * * * * ? *` | Every minute | Execute at 0 seconds |
+| `0 5 * * * ? *` | Every 5 minutes | Execute at 5 minutes |
+| `0 0 * * * ? *` | Every hour | Execute at 0 minutes 0 seconds |
+| `0 0 0 * * ? *` | Every day | Execute at 0:00 |
+| `0 0 0 ? * 2 *` | Every Monday | Execute at 0:00 on Monday |
+| `0 0 0 1 * ? *` | 1st of every month | Execute at 0:00 on 1st |
+| `0 0 0 1 1 ? *` | January 1st every year | Execute at 0:00 on New Year's Day |
+| `0 0 0 ? * 1,5 *` | Every Monday and Friday | Execute at 0:00 on Monday and Friday |
+| `0 0 0 L * ? *` | Last day of every month | Execute at 0:00 on last day |
+| `0 0 0 ? * 6L *` | Last Saturday of every month | Execute at 0:00 on last Saturday |
+
+## 🛠️ Development Guide
+
+### Environment Requirements
+
+- Node.js >= 16.0.0
+- npm >= 7.0.0 or yarn >= 1.22.0
+
+### Quick Start
+
+```bash
+# Clone project
+git clone https://github.com/qindongliang/vue3-crontab-ui.git
+cd vue3-crontab-ui
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build production version
+npm run build
+
+# Preview build result
+npm run preview
+
+# Code formatting
+npm run format
+
+# Code checking
+npm run lint
+```
+
+### Development Environment Configuration
+
+The project uses the following development tools:
+
+- **ESLint**: Code quality and style checking
+- **Prettier**: Code formatting
+- **TypeScript**: Type checking
+- **Vite**: Build and development server
+
+## 🔧 Customization and Extension
+
+### Modify Time Unit Range
+
+Edit the configuration in `src/components/crontab/TimeUnitTab.vue`:
+
+```vue
+<script setup lang="ts">
+// Modify year range
+const specificOptions = computed(() => {
+  if (props.timeSpecial === 'year') {
+    return Array.from({ length: 50 }, (_, i) => ({ // Change to 50 years
+      label: (2025 + i).toString(),
+      value: 2025 + i
+    }))
+  }
+  // ... other configurations
+})
+</script>
+```
+
+### Add New Common Expressions
+
+Edit `src/components/crontab/CrontabEditor.vue`:
+
+```vue
+<script setup lang="ts">
+const COMMON_EXPRESSIONS = [
+  // Existing expressions...
+
+  // Add new expressions
+  { label: 'Every weekday', value: '0 0 0 ? * MON-FRI *' },
+  { label: 'Quarterly start', value: '0 0 0 1 1,4,7,10 ? *' },
+  { label: 'Every 15 minutes', value: '0 0,15,30,45 * * * ? *' }
+] as const
+</script>
+```
+
+### Internationalization Support
+
+Edit the `timeI18n` object in `src/utils/common.ts`:
+
+```typescript
+const timeI18n = {
+  second: {
+    everyTime: 'Every Second',    // English
+    every: 'Every',
+    timeCarriedOut: 'seconds, starting from',
+    // ... other translations
+  },
+  // ... other time units
+}
+```
+
+## 📱 Browser Compatibility
+
+| Browser | Version |
+|---------|---------|
+| Chrome | >= 88 |
+| Firefox | >= 78 |
+| Safari | >= 14 |
+| Edge | >= 88 |
+
+## 🤝 Contributing
+
+Issues and Pull Requests are welcome!
+
+### Commit Specification
+
+```bash
+feat: new features
+fix: bug fixes
+docs: documentation updates
+style: code format adjustments
+refactor: code refactoring
+test: testing related
+chore: build process or auxiliary tool changes
+```
+
+### Development Workflow
+
+1. Fork this repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'feat: add amazing feature'`
+4. Push branch: `git push origin feature/amazing-feature`
+5. Submit Pull Request
+
+## 📄 Changelog
+
+### v1.0.0
+
+#### ✨ New Features
+- 🎉 CRONTAB editor based on Vue 3 + View UI Plus
+- 📊 Complete 7-bit CRONTAB expression support
+- 🎯 Visual tab editing interface
+- ⚡ Quick common expression selection
+- 📅 Start/end time picker
+- 🔧 Real-time expression preview
+- 📱 Responsive design
+- 🎨 Complete TypeScript support
+
+#### 🛠️ Technical Features
+- Vue 3.4.21 + Composition API
+- Vite 5.2.8 build
+- View UI Plus 1.3.15 component library
+- TypeScript 5.4.0 type safety
+- Code optimization and streamlining
+
+## 📄 License
+
+This project is licensed under the [MIT](LICENSE) License.
+
+## 🙏 Acknowledgments
+
+- [Vue.js](https://vuejs.org/) - Progressive JavaScript Framework
+- [View UI Plus](https://www.iviewui.com/) - Enterprise UI Component Library
+- [Vite](https://vitejs.dev/) - Next Generation Front-end Build Tool
+- [Day.js](https://day.js.org/) - Lightweight Date Library
+
+---
+
+<div align="center">
+
+Made with ❤️ by [qindongliang](https://github.com/qindongliang)
+
+If this project helps you, please give it a ⭐ Star!
+
+</div>
+
+---
+
+## 中文文档
 
 ## ✨ 功能特性
 
