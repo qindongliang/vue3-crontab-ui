@@ -21,27 +21,7 @@
         </Menu>
       </Header>
       <Content :style="{ padding: '50px', minHeight: '280px' }">
-        <Card>
-          <template #title>
-            <Icon type="ios-clock" />
-            定时任务管理
-          </template>
-          <div class="crontab-content">
-            <p>欢迎使用 Vue3 Crontab UI 系统</p>
-            <p>技术栈：Vue 3.4.21 + Vite 5.2.8 + View UI Plus 1.3.15</p>
-            <Divider />
-            <Space>
-              <Button type="primary" @click="handleCreateTask">
-                <Icon type="ios-add" />
-                创建任务
-              </Button>
-              <Button @click="handleRefresh">
-                <Icon type="ios-refresh" />
-                刷新列表
-              </Button>
-            </Space>
-          </div>
-        </Card>
+        <CrontabDemo />
       </Content>
       <Footer class="layout-footer-center">
         2024 &copy; Vue3 Crontab UI - 基于 Vue3 + View UI Plus 构建
@@ -52,17 +32,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Message } from 'view-ui-plus'
+import CrontabDemo from './views/CrontabDemo.vue'
 
 const activeName = ref('1')
-
-const handleCreateTask = () => {
-  Message.info('创建任务功能开发中...')
-}
-
-const handleRefresh = () => {
-  Message.success('刷新成功')
-}
 </script>
 
 <style scoped>
