@@ -128,8 +128,8 @@ const timeI18nConfig = computed(() => props.timeI18n)
 const specificOptions = computed(() => {
   if (props.timeSpecial === 'year') {
     return Array.from({ length: 13 }, (_, i) => ({
-      label: (2018 + i).toString(),
-      value: 2018 + i
+      label: (2025 + i).toString(),
+      value: 2025 + i
     }))
   }
   if (props.timeSpecial === 12) {

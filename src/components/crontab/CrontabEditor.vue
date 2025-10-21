@@ -118,12 +118,12 @@
 
           <TabPane name="year" label="年" :key="'year'">
             <TimeUnitTab
-              :timeMin="2018"
-              :timeMax="2030"
-              :intervalPerform="5"
-              :intervalStart="2018"
-              :cycleStart="2018"
-              :cycleEnd="2018"
+              :timeMin="2025"
+              :timeMax="2130"
+              :intervalPerform="1"
+              :intervalStart="2025"
+              :cycleStart="2025"
+              :cycleEnd="2130"
               :timeSpecial="'year'"
               :timeValue="crontabState.year"
               @update:timeValue="crontabState.year = $event"

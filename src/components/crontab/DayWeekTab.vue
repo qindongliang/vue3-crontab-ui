@@ -278,9 +278,9 @@ const analyticalValue = () => {
   } else if ($dayVal.includes('W')) {
     radioRef.value = 'nearestWorkday'
     nearestWorkdayRef.value = parseInt($dayVal.replace('W', ''))
-  } else if ($dayVal.includes('#')) {
+  } else if ($weekVal.includes('#')) {
     radioRef.value = 'nthWeekdayOfMonth'
-    const [weekday, nth] = $dayVal.split('#')
+    const [weekday, nth] = $weekVal.split('#')
     nthWeekdayRef.value = parseInt(weekday)
     nthWeekRef.value = parseInt(nth)
   } else if ($dayVal.includes('/') && $weekVal === '?') {
@@ -353,8 +353,8 @@ const updateRadioTime = (value: string) => {
       weekRef.value = '?'
       break
     case 'nthWeekdayOfMonth':
-      dayRef.value = `${nthWeekdayRef.value}#${nthWeekRef.value}`
-      weekRef.value = '?'
+      dayRef.value = '?'
+      weekRef.value = `${nthWeekdayRef.value}#${nthWeekRef.value}`
       break
   }
 }

@@ -39,7 +39,7 @@ const timeI18n = {
     every: '每隔',
     timeCarriedOut: '月执行一次，从',
     timeStart: '月开始',
-    cycleFrom: '周期，从',
+    cycleFrom: '周期从',
     specificTime: '特定月份',
     specificTimeTip: '请选择特定月份',
     to: '到',
@@ -50,7 +50,7 @@ const timeI18n = {
     every: '每隔',
     timeCarriedOut: '年执行一次，从',
     timeStart: '年开始',
-    cycleFrom: '周期，从',
+    cycleFrom: '周期从',
     specificTime: '特定年份',
     specificTimeTip: '请选择特定年份',
     to: '到',
@@ -94,7 +94,7 @@ const CRONTAB_EVERY_SECOND = '* * * * * ? *'
 const CRONTAB_EVERY_MINUTE = '0 * * * * ? *'
 const CRONTAB_EVERY_HOUR = '0 0 * * * ? *'
 const CRONTAB_EVERY_DAY = '0 0 0 * * ? *'
-const CRONTAB_EVERY_WEEK_MONDAY = '0 0 0 ? * 2 *'
+const CRONTAB_EVERY_WEEK_MONDAY = '0 0 0 ? * MON *'
 const CRONTAB_EVERY_MONTH_FIRST = '0 0 0 1 * ? *'
 const CRONTAB_EVERY_YEAR_FIRST = '0 0 0 1 1 ? *'
 
