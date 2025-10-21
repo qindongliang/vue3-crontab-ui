@@ -260,11 +260,15 @@ const intervalReset = () => {
 
 // 重置特定时间
 const specificReset = () => {
-  let timeValue = '*'
   if (specificTimesRef.value.length) {
-    timeValue = specificTimesRef.value.join(',')
+    timeRef.value = specificTimesRef.value.join(',')
+  } else {
+    if (props.timeI18n.time === '秒') {
+      timeRef.value = '0'
+    } else {
+      timeRef.value = '*'
+    }
   }
-  timeRef.value = timeValue
 }
 
 // 重置周期时间
