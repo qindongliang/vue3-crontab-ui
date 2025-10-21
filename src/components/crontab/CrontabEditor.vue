@@ -187,7 +187,7 @@ const CRONTAB_EVERY_YEAR_FIRST = '0 0 0 1 1 ? *'
 
 
 const showModal = ref(false)
-const activeTab = ref('second')
+const activeTab = ref('minute')
 // 解析 CRONTAB 表达式
 const parseCrontab = (crontab: string) => {
   const parts = crontab.trim().split(/\s+/)
@@ -198,7 +198,7 @@ const parseCrontab = (crontab: string) => {
   }
 
   return {
-    second: parts[0] || '*',
+    second: parts[0] || '0',
     minute: parts[1] || '*',
     hour: parts[2] || '*',
     day: parts[3] || '*',
@@ -211,7 +211,7 @@ const parseCrontab = (crontab: string) => {
 
 // CRONTAB 状态 - 默认每小时执行
 const crontabState = ref({
-  second: '*',
+  second: '0',
   minute: '*',
   hour: '*',
   day: '*',
@@ -250,7 +250,7 @@ const COMMON_EXPRESSIONS = [
   { label: '每周四', value: CRONTAB_EVERY_WEEK_THURSDAY },
   { label: '每周五', value: CRONTAB_EVERY_WEEK_FRIDAY },
   { label: '每周六', value: CRONTAB_EVERY_WEEK_SATURDAY },
-  { label: '每周日', value: CRONTAB_EVERY_WEEK_MONDAY },
+  { label: '每周日', value: CRONTAB_EVERY_WEEK_SUNDAY },
   { label: '每月', value: CRONTAB_EVERY_MONTH_FIRST },
   { label: '每季度', value: CRONTAB_EVERY_3_MONDAY_FIRST },
   { label: '每半年', value: CRONTAB_EVERY_6_MONDAY_FIRST },

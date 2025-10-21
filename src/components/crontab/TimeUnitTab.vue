@@ -2,14 +2,14 @@
   <div class="crontab-time">
     <RadioGroup v-model="radioRef" @on-change="updateRadioTime">
       <!-- 每一单位 -->
-      <div class="crontab-list">
+      <div v-if="timeI18nConfig.time!=='秒'" class="crontab-list">
         <Radio label="everyTime">{{ timeI18nConfig.everyTime }}</Radio>
         <div class="crontab-list-item">
         </div>
       </div>
 
       <!-- 间隔 -->
-      <div class="crontab-list">
+      <div v-if="timeI18nConfig.time!=='秒'"  class="crontab-list">
         <Radio label="intervalTime">{{ timeI18nConfig.every }}</Radio>
         <div class="crontab-list-item">
             <InputNumber
@@ -32,7 +32,7 @@
       </div>
 
       <!-- 周期 -->
-      <div class="crontab-list">
+      <div v-if="timeI18nConfig.time!=='秒'" class="crontab-list">
         <Radio label="cycleTime">{{ timeI18nConfig.cycleFrom }}</Radio>
         <div class="crontab-list-item">
           <div class="number-input">
