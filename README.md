@@ -10,6 +10,8 @@
 
 基于 Vue 3 + View UI Plus 的功能强大 CRONTAB 表达式可视化编辑器
 
+![Demo Preview](images/demo.png)
+
 </div>
 
 ## ✨ 功能特性
