@@ -49,21 +49,22 @@
 
         </Radio>
       <!-- 指定 -->
-        <Radio label="specificTime">
-          {{ timeI18nConfig.specificTime }}
-          <Select
-              multiple
-              :placeholder="timeI18nConfig.specificTimeTip"
-              v-model="specificTimesRef"
-              @on-change="onSpecificTimes"
-              :max-tag-count="3"
-              transfer
-          >
-            <Option v-for="opt in specificOptions" :key="opt.value" :value="opt.value">
-              {{ opt.label }}
-            </Option>
-          </Select>
-        </Radio>
+
+        <Space wrap>
+              <Radio label="specificTime">
+                {{ timeI18nConfig.specificTime }}
+              </Radio>
+              <Select
+                  multiple
+                  :placeholder="timeI18nConfig.specificTimeTip"
+                  v-model="specificTimesRef"
+                  @on-change="onSpecificTimes"
+              >
+                <Option v-for="opt in specificOptions" :key="opt.value" :value="opt.value">
+                  {{ opt.label }}
+                </Option>
+              </Select>
+          </Space>
 
       </Space>
     </RadioGroup>

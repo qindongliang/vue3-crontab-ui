@@ -6,8 +6,8 @@
         <Radio label="everyDay">每天</Radio>
 
       <!-- 每隔天数执行，从星期开始 -->
-        <Radio label="intervalWeekDay">
-          从
+        <Space>
+          <Radio label="intervalWeekDay">从</Radio>
           <Select style="width: 100px" v-model="intervalWeekStartRef" @on-change="onIntervalWeekStart">
             <Option v-for="week in weekOptions" :key="week.value" :value="week.value">
               {{ week.label }}
@@ -22,7 +22,8 @@
               @on-change="onIntervalWeekDay"
           />
           天执行一次
-        </Radio>
+        </Space>
+
 
       <!-- 每隔天数执行，从某天开始 -->
         <Radio label="intervalDay">
@@ -45,7 +46,8 @@
         </Radio>
 
       <!-- 具体星期几(可多选) -->
-        <Radio label="specificWeek">具体星期几(可多选)
+        <Space>
+          <Radio label="specificWeek">具体星期几(可多选)</Radio>
           <Select
               multiple
               placeholder="请选择具体星期"
@@ -56,11 +58,12 @@
           >
             <Option v-for="item in specificWeekOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-        </Radio>
+        </Space>
 
 
       <!-- 具体天数(可多选) -->
-        <Radio label="specificDay">具体天数(可多选)
+        <Space>
+        <Radio label="specificDay">具体天数(可多选)</Radio>
           <Select
               multiple
               placeholder="请选择具体天数"
@@ -71,8 +74,7 @@
           >
             <Option v-for="item in dayOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-        </Radio>
-
+        </Space>
 
       <!-- 在这个月的最后一天 -->
     
@@ -85,9 +87,9 @@
 
 
       <!-- 在这个月的最后一个星期几 -->
-    
-        <Radio label="lastWeekdayOfMonth">在这个月的最后一个
 
+        <Space>
+          <Radio label="lastWeekdayOfMonth">在这个月的最后一个</Radio>
           <Select
               v-model="lastWeekdayRef"
               @on-change="onLastWeekday"
@@ -97,7 +99,8 @@
               {{ week.label }}
             </Option>
           </Select>
-        </Radio>
+        </Space>
+
 
 
       <!-- X 在本月底前 -->
@@ -128,8 +131,9 @@
 
 
       <!-- 在这个月的第X个星期几 -->
-    
-        <Radio label="nthWeekdayOfMonth">在这个月的第
+
+        <Space>
+          <Radio label="nthWeekdayOfMonth">在这个月的第</Radio>
           <InputNumber
               :min="1"
               :max="5"
@@ -146,7 +150,8 @@
               {{ week.label }}
             </Option>
           </Select>
-        </Radio>
+        </Space>
+
 
       </Space>
     </RadioGroup>
