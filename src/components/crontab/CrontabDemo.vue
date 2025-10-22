@@ -10,15 +10,23 @@
         <!-- 基础用法 -->
         <div class="demo-section">
           <h3>基础用法</h3>
-          <p>点击输入框打开 CRONTAB 编辑器：</p>
+          <p>点击输入框或按钮打开 CRONTAB 编辑器：</p>
           <div class="demo-item">
             <span style="margin-right: 10px;">表达式：</span>
             <CrontabEditor
+              ref="crontabEditorRef"
               v-model="crontabValue"
               placeholder="请选择 CRONTAB 表达式"
               style="width: 400px;"
               @change="handleCrontabChange"
             />
+            <Button
+              type="primary"
+              style="margin-left: 10px;"
+              @click="openCrontabEditor"
+            >
+              打开编辑器
+            </Button>
           </div>
           <div class="result-display">
             <p>当前crontab值：</p>{{ crontabValue }}
@@ -33,12 +41,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import dayjs from 'dayjs';
-import { Card, Icon, Message } from 'view-ui-plus'
+import { Card, Icon, Message, Button } from 'view-ui-plus'
 import CrontabEditor from '@/components/crontab/CrontabEditor.vue'
 const CRONTAB_EVERY_HOUR="0 0 * * * ? *"
 // 基础用法
 const crontabValue = ref(CRONTAB_EVERY_HOUR)
 const dateRange = ref<(Date | string)[] | undefined>()
+
+// CrontabEditor 组件的引用
+const crontabEditorRef = ref()
+
+// 打开 CRONTAB 编辑器
+const openCrontabEditor = () => {
+  if (crontabEditorRef.value) {
+    crontabEditorRef.value.openModal()
+  }
+}
 
 // 处理表达式变化
 const handleCrontabChange = (data: { cron: string; dateRange: (Date | null)[] | undefined }) => {

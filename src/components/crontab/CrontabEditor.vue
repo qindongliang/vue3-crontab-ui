@@ -252,6 +252,16 @@ const parseCrontab = (crontab: string) => {
 const showModal = ref(false)
 const activeTab = ref('minute')
 
+// 暴露打开弹窗的方法
+const openModal = () => {
+  showModal.value = true
+}
+
+// 暴露方法给父组件
+defineExpose({
+  openModal
+})
+
 // CRONTAB 状态 - 默认每小时执行
 const crontabState = ref({
   second: '0',
