@@ -1,13 +1,8 @@
 <template>
   <div class="crontab-editor">
-    <Input
-      v-model="displayValue"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      readonly
-      @click="showModal = true"
-    >
-    </Input>
+    <span>
+      {{ displayValue || '' }}
+    </span>
 
     <Modal
       v-model="showModal"
