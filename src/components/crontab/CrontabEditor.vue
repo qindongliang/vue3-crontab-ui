@@ -242,7 +242,7 @@ const parseCrontab = (crontab: string) => {
 }
 
 const showModal = ref(false)
-const activeTab = ref('minute')
+const activeTab = ref('second')
 
 // 暴露打开弹窗的方法
 const openModal = () => {
