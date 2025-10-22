@@ -142,14 +142,14 @@ const specificOptions = computed(() => {
 })
 
 /**
- * 解析表达式值
+ * 解析表达式值（先判断间隔/指定/周期，最后严格数字判断）
  */
 const analyticalValue = () => {
   const $timeVal = props.timeValue
 
   // 间隔时间
   const $interval = isStr($timeVal, '/')
-  // 特定时间
+  // 特定时间（多选）
   const $specific = isStr($timeVal, ',')
   // 周期时间
   const $cycle = isStr($timeVal, '-')
@@ -161,19 +161,7 @@ const analyticalValue = () => {
     return
   }
 
-  // 正整数（时间）
-  if (
-    ($timeVal.length === 1 ||
-      $timeVal.length === 2 ||
-      $timeVal.length === 4) &&
-    Number.isInteger(parseInt($timeVal))
-  ) {
-    radioRef.value = 'specificTime'
-    specificTimesRef.value = [parseInt($timeVal)]
-    return
-  }
-
-  // 间隔时间
+  // 间隔时间优先
   if ($interval) {
     radioRef.value = 'intervalTime'
     intervalStartRef.value = parseInt($interval[0])
@@ -182,7 +170,7 @@ const analyticalValue = () => {
     return
   }
 
-  // 特定时间
+  // 特定时间（多选）
   if ($specific) {
     radioRef.value = 'specificTime'
     specificTimesRef.value = $specific.map(item => parseInt(item))
@@ -196,6 +184,17 @@ const analyticalValue = () => {
     cycleEndRef.value = parseInt($cycle[1])
     timeRef.value = `${cycleStartRef.value}-${cycleEndRef.value}`
     return
+  }
+
+  // 严格数字判断（避免 parseInt 容错误判）
+  if (/^\d+$/.test($timeVal)) {
+    const isYear = props.timeSpecial === 'year'
+    const lenOk = isYear ? ($timeVal.length === 4) : ($timeVal.length === 1 || $timeVal.length === 2)
+    if (lenOk) {
+      radioRef.value = 'specificTime'
+      specificTimesRef.value = [Number($timeVal)]
+      return
+    }
   }
 }
 
@@ -225,7 +224,7 @@ const onSpecificTimes = (value: number[]) => {
 
 // 周期开始值
 const onCycleStart = (value: number | null) => {
-  cycleStartRef.value = value || 1
+  cycleStartRef.value = value || 0
   if (radioRef.value === 'cycleTime') {
     timeRef.value = `${cycleStartRef.value}-${cycleEndRef.value}`
   }
@@ -233,7 +232,7 @@ const onCycleStart = (value: number | null) => {
 
 // 周期结束值
 const onCycleEnd = (value: number | null) => {
-  cycleEndRef.value = value || 2
+  cycleEndRef.value = value || 0
   if (radioRef.value === 'cycleTime') {
     timeRef.value = `${cycleStartRef.value}-${cycleEndRef.value}`
   }
