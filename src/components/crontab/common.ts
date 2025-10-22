@@ -78,6 +78,37 @@ const specificWeek = [
   { label: 'SAT', value: 'SAT' }
 ]
 
+
+
+export interface ICrontabI18n {
+  everyTime: string
+  every: string
+  timeCarriedOut: string
+  timeStart: string
+  cycleFrom: string
+  specificTime: string
+  specificTimeTip: string
+  to: string
+  time: string
+}
+
+export interface CrontabState {
+  second: string
+  minute: string
+  hour: string
+  day: string
+  month: string
+  week: string
+  year: string
+}
+
+export interface CrontabEditorProps {
+  modelValue?: string
+  disabled?: boolean
+  placeholder?: string
+}
+
+
 // 工具函数
 const isStr = (str: string, v: string) => {
   let flag

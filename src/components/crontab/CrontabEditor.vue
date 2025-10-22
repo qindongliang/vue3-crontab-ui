@@ -159,8 +159,8 @@ import { ref, computed, watch } from 'vue'
 import { Input, Modal, Tabs, TabPane, Button, Icon, DatePicker, Message } from 'view-ui-plus'
 import TimeUnitTab from './TimeUnitTab.vue'
 import DayWeekTab from './DayWeekTab.vue'
-import { timeI18n } from '../../utils/common.ts'
-import type { CrontabEditorProps } from '@/types/crontab'
+import { timeI18n } from './common.ts'
+import type { CrontabEditorProps } from './common'
 
 // 获取当前日期和100年后的日期
 const getInitialDateRange = () => {

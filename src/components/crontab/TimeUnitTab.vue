@@ -83,8 +83,8 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { RadioGroup, Radio, InputNumber, Select, Option } from 'view-ui-plus'
-import { isStr } from '../../utils/common.ts'
-import type { ICrontabI18n } from './types'
+import { isStr } from './common.ts'
+import type { ICrontabI18n } from './common'
 
 interface Props {
   timeMin: number
