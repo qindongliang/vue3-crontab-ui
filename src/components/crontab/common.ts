@@ -4,8 +4,9 @@ const timeI18n = {
   second: {
     everyTime: '每秒',
     every: '每隔',
-    timeCarriedOut: '秒执行一次，从',
-    timeStart: '秒开始',
+    incStepStart: '从第',
+    timeCarriedOut: '秒执行一次',
+    timeStart: '秒开始，',
     cycleFrom: '周期从',
     specificTime: '特定秒数',
     specificTimeTip: '请选择特定秒数',
@@ -15,9 +16,10 @@ const timeI18n = {
   minute: {
     everyTime: '每分钟',
     every: '每隔',
-    timeCarriedOut: '分钟执行一次，从',
-    timeStart: '分钟开始',
-    cycleFrom: '周期，从',
+    incStepStart: '从第',
+    timeCarriedOut: '分钟执行一次',
+    timeStart: '分钟开始，',
+    cycleFrom: '周期从',
     specificTime: '特定分钟',
     specificTimeTip: '请选择特定分钟',
     to: '到',
@@ -26,9 +28,10 @@ const timeI18n = {
   hour: {
     everyTime: '每小时',
     every: '每隔',
-    timeCarriedOut: '小时执行一次，从',
-    timeStart: '小时开始',
-    cycleFrom: '周期，从',
+    incStepStart: '从第',
+    timeCarriedOut: '小时执行一次',
+    timeStart: '小时开始，',
+    cycleFrom: '周期从',
     specificTime: '特定小时',
     specificTimeTip: '请选择特定小时',
     to: '到',
@@ -37,8 +40,9 @@ const timeI18n = {
   month: {
     everyTime: '每月',
     every: '每隔',
-    timeCarriedOut: '月执行一次，从',
-    timeStart: '月开始',
+    incStepStart: '从第',
+    timeCarriedOut: '月执行一次',
+    timeStart: '月开始，',
     cycleFrom: '周期从',
     specificTime: '特定月份',
     specificTimeTip: '请选择特定月份',
@@ -48,8 +52,9 @@ const timeI18n = {
   year: {
     everyTime: '每年',
     every: '每隔',
-    timeCarriedOut: '年执行一次，从',
-    timeStart: '年开始',
+    incStepStart: '从第',
+    timeCarriedOut: '年执行一次',
+    timeStart: '年开始，',
     cycleFrom: '周期从',
     specificTime: '特定年份',
     specificTimeTip: '请选择特定年份',
@@ -83,6 +88,7 @@ const specificWeek = [
 export interface ICrontabI18n {
   everyTime: string
   every: string
+  incStepStart: string
   timeCarriedOut: string
   timeStart: string
   cycleFrom: string

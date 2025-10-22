@@ -1,88 +1,78 @@
 <template>
   <div class="crontab-time">
-    <RadioGroup v-model="radioRef" @on-change="updateRadioTime">
+    <RadioGroup v-model="radioRef"  @on-change="updateRadioTime">
+      <Space direction="vertical">
       <!-- 每一单位 -->
-      <div class="crontab-list">
         <Radio label="everyTime">{{ timeI18nConfig.everyTime }}</Radio>
-        <div class="crontab-list-item">
-        </div>
-      </div>
 
       <!-- 间隔 -->
-      <div  class="crontab-list">
-        <Radio label="intervalTime">{{ timeI18nConfig.every }}</Radio>
-        <div class="crontab-list-item">
+        <Radio label="intervalTime">
+            <Space wrap>
+              {{ timeI18nConfig.incStepStart }}
+              <InputNumber
+                  :min="timeMin"
+                  :max="timeMax"
+                  v-model="intervalStartRef"
+                  @on-change="onIntervalStart"
+              />
+              {{ timeI18nConfig.timeStart }}
+
+            {{ timeI18nConfig.every }}
             <InputNumber
-              :min="timeMin"
-              :max="timeMax"
-              v-model="intervalPerformRef"
-              @on-change="onIntervalPerform"
+                :min="timeMin"
+                :max="timeMax"
+                v-model="intervalPerformRef"
+                @on-change="onIntervalPerform"
             />
-          <div class="item-text">{{ timeI18nConfig.timeCarriedOut }}</div>
-          <div class="number-input">
-            <InputNumber
-              :min="timeMin"
-              :max="timeMax"
-              v-model="intervalStartRef"
-              @on-change="onIntervalStart"
-            />
-          </div>
-          <div class="item-text">{{ timeI18nConfig.timeStart }}</div>
-        </div>
-      </div>
+              {{ timeI18nConfig.timeCarriedOut }}
+
+            </Space>
+        </Radio>
 
       <!-- 周期 -->
-      <div class="crontab-list">
-        <Radio label="cycleTime">{{ timeI18nConfig.cycleFrom }}</Radio>
-        <div class="crontab-list-item">
-          <div class="number-input">
-            <InputNumber
+        <Radio label="cycleTime">
+          {{ timeI18nConfig.cycleFrom }}
+          <InputNumber
               :min="timeMin"
               :max="timeMax"
               v-model="cycleStartRef"
               @on-change="onCycleStart"
-            />
-          </div>
-          <div class="item-text">{{ timeI18nConfig.to }}</div>
-          <div class="number-input">
-            <InputNumber
+          />
+          {{ timeI18nConfig.to }}
+          <InputNumber
               :min="timeMin"
               :max="timeMax"
               v-model="cycleEndRef"
               @on-change="onCycleEnd"
-            />
-          </div>
-          <div class="item-text">{{ timeI18nConfig.time }}</div>
-        </div>
-      </div>
+          />
+          {{ timeI18nConfig.time }}
 
+        </Radio>
       <!-- 指定 -->
-      <div class="crontab-list">
-        <Radio label="specificTime">{{ timeI18nConfig.specificTime }}</Radio>
-        <div class="crontab-list-item">
-          <div class="select-input">
-            <Select
+        <Radio label="specificTime">
+          {{ timeI18nConfig.specificTime }}
+          <Select
               multiple
               :placeholder="timeI18nConfig.specificTimeTip"
               v-model="specificTimesRef"
               @on-change="onSpecificTimes"
               :max-tag-count="3"
               transfer
-            >
-              <Option v-for="opt in specificOptions" :key="opt.value" :value="opt.value">
-                {{ opt.label }}
-              </Option>
-            </Select>
-          </div>
-        </div>
-      </div>
+          >
+            <Option v-for="opt in specificOptions" :key="opt.value" :value="opt.value">
+              {{ opt.label }}
+            </Option>
+          </Select>
+        </Radio>
+
+      </Space>
     </RadioGroup>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
-import { RadioGroup, Radio, InputNumber, Select, Option } from 'view-ui-plus'
+import {RadioGroup, Radio, InputNumber, Select, Option, Space} from 'view-ui-plus'
 import { isStr } from './common.ts'
 import type { ICrontabI18n } from './common'
 
@@ -313,59 +303,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.crontab-time {
-  padding: 10px 0;
-}
 
-.crontab-list {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  min-height: 32px;
-}
-
-.crontab-list-item {
-  margin-left: 12px;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.item-text {
-  display: inline-block;
-  margin: 0 4px;
-  line-height: 32px;
-  white-space: nowrap;
-}
-
-.number-input {
-  display: inline-block;
-  width: 80px;
-  min-width: 80px;
-}
-
-.select-input {
-  width: 100%;
-  max-width: 400px;
-  margin-top: 0;
-}
-
-/* 确保所有子元素垂直居中 */
-.crontab-list :deep(.ivu-radio-wrapper) {
-  align-items: center;
-  margin-right: 0;
-}
-
-/* 输入框和选择框的对齐优化 */
-.crontab-list :deep(.ivu-input-number),
-.crontab-list :deep(.ivu-select) {
-  vertical-align: middle;
-}
-
-/* 多选选择框的特殊处理 */
-.crontab-list-item .select-input {
-  align-items: flex-start;
-}
 </style>

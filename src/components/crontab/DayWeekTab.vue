@@ -1,196 +1,161 @@
 <template>
   <div class="crontab-day">
-    <RadioGroup v-model="radioRef" @on-change="updateRadioTime">
+    <RadioGroup v-model="radioRef"  @on-change="updateRadioTime">
       <!-- 每一天 -->
-      <div class="crontab-list">
-        <Radio label="everyDay">每一天</Radio>
-      </div>
+      <Space direction="vertical">
+        <Radio label="everyDay">每天</Radio>
 
       <!-- 每隔天数执行，从星期开始 -->
-      <div class="crontab-list">
-        <Radio label="intervalWeekDay">每隔</Radio>
-        <div class="crontab-list-item">
-          <div class="number-input">
-            <InputNumber
+        <Radio label="intervalWeekDay">
+          从
+          <Select style="width: 100px" v-model="intervalWeekStartRef" @on-change="onIntervalWeekStart">
+            <Option v-for="week in weekOptions" :key="week.value" :value="week.value">
+              {{ week.label }}
+            </Option>
+          </Select>
+          开始，
+          每隔
+          <InputNumber
               :min="1"
               :max="31"
               v-model="intervalWeekDayRef"
               @on-change="onIntervalWeekDay"
-            />
-          </div>
-          <div class="item-text">天执行一次，从</div>
-          <div class="select-input-small">
-            <Select
-              v-model="intervalWeekStartRef"
-              @on-change="onIntervalWeekStart"
-              transfer
-            >
-              <Option v-for="week in weekOptions" :key="week.value" :value="week.value">
-                {{ week.label }}
-              </Option>
-            </Select>
-          </div>
-          <div class="item-text">开始</div>
-        </div>
-      </div>
+          />
+          天执行一次
+        </Radio>
 
       <!-- 每隔天数执行，从某天开始 -->
-      <div class="crontab-list">
-        <Radio label="intervalDay">每隔</Radio>
-        <div class="crontab-list-item">
-          <div class="number-input">
-            <InputNumber
-              :min="1"
-              :max="31"
-              v-model="intervalDayPerformRef"
-              @on-change="onIntervalDayPerform"
-            />
-          </div>
-          <div class="item-text">天执行一次，从</div>
-          <div class="number-input">
-            <InputNumber
+        <Radio label="intervalDay">
+          从第
+          <InputNumber
               :min="1"
               :max="31"
               v-model="intervalDayStartRef"
               @on-change="onIntervalDayStart"
-            />
-          </div>
-          <div class="item-text">天开始</div>
-        </div>
-      </div>
+          />
+          天开始，
+          每隔
+          <InputNumber
+              :min="1"
+              :max="31"
+              v-model="intervalDayPerformRef"
+              @on-change="onIntervalDayPerform"
+          />
+          天执行一次
+        </Radio>
 
       <!-- 具体星期几(可多选) -->
-      <div class="crontab-list">
-        <Radio label="specificWeek">具体星期几(可多选)</Radio>
-        <div class="crontab-list-item">
-          <div class="select-input">
-            <Select
+        <Radio label="specificWeek">具体星期几(可多选)
+          <Select
               multiple
               placeholder="请选择具体星期"
               v-model="WkspecificWeekRef"
               @on-change="onSpecificWeek"
               :max-tag-count="3"
               transfer
-            >
-              <Option v-for="item in specificWeekOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-          </div>
-        </div>
-      </div>
+          >
+            <Option v-for="item in specificWeekOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </Radio>
+
 
       <!-- 具体天数(可多选) -->
-      <div class="crontab-list">
-        <Radio label="specificDay">具体天数(可多选)</Radio>
-        <div class="crontab-list-item">
-          <div class="select-input">
-            <Select
+        <Radio label="specificDay">具体天数(可多选)
+          <Select
               multiple
               placeholder="请选择具体天数"
               v-model="WkspecificDayRef"
               @on-change="onSpecificDay"
               :max-tag-count="3"
               transfer
-            >
-              <Option v-for="item in dayOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-          </div>
-        </div>
-      </div>
+          >
+            <Option v-for="item in dayOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </Radio>
+
 
       <!-- 在这个月的最后一天 -->
-      <div class="crontab-list">
+    
         <Radio label="lastDayOfMonth">在这个月的最后一天</Radio>
-      </div>
+
 
       <!-- 在这个月的最后一个工作日 -->
-      <div class="crontab-list">
+    
         <Radio label="lastWorkdayOfMonth">在这个月的最后一个工作日</Radio>
-      </div>
+
 
       <!-- 在这个月的最后一个星期几 -->
-      <div class="crontab-list">
-        <Radio label="lastWeekdayOfMonth">在这个月的最后一个</Radio>
-        <div class="crontab-list-item">
-          <div class="select-input-small">
-            <Select
+    
+        <Radio label="lastWeekdayOfMonth">在这个月的最后一个
+
+          <Select
               v-model="lastWeekdayRef"
               @on-change="onLastWeekday"
               transfer
-            >
-              <Option v-for="week in weekOptions" :key="week.value" :value="week.value">
-                {{ week.label }}
-              </Option>
-            </Select>
-          </div>
-        </div>
-      </div>
+          >
+            <Option v-for="week in weekOptions" :key="week.value" :value="week.value">
+              {{ week.label }}
+            </Option>
+          </Select>
+        </Radio>
+
 
       <!-- X 在本月底前 -->
-      <div class="crontab-list">
-        <Radio label="beforeMonthEnd">在本月底前</Radio>
-        <div class="crontab-list-item">
-          <div class="number-input">
-            <InputNumber
+    
+        <Radio label="beforeMonthEnd">在本月底前
+
+          <InputNumber
               :min="1"
               :max="31"
               v-model="beforeMonthEndRef"
               @on-change="onBeforeMonthEnd"
-            />
-
-          </div>
+          />
           日
-        </div>
+        </Radio>
 
-      </div>
 
       <!-- 最近的工作日至本月X日 -->
-      <div class="crontab-list">
-        <Radio label="nearestWorkday">最近的工作日（周一至周五）至本月</Radio>
-        <div class="crontab-list-item">
-          <div class="number-input">
-            <InputNumber
+    
+        <Radio label="nearestWorkday">最近的工作日（周一至周五）至本月
+          <InputNumber
               :min="1"
               :max="31"
               v-model="nearestWorkdayRef"
               @on-change="onNearestWorkday"
-            />
-          </div>
-          <div class="item-text">日</div>
-        </div>
-      </div>
+          />
+          日
+        </Radio>
+
 
       <!-- 在这个月的第X个星期几 -->
-      <div class="crontab-list">
-        <Radio label="nthWeekdayOfMonth">在这个月的第</Radio>
-        <div class="crontab-list-item">
-          <div class="number-input">
-            <InputNumber
+    
+        <Radio label="nthWeekdayOfMonth">在这个月的第
+          <InputNumber
               :min="1"
               :max="5"
               v-model="nthWeekRef"
               @on-change="onNthWeek"
-            />
-          </div>
-          <div class="select-input-small">
-            <Select
+          />
+          个
+          <Select
               v-model="nthWeekdayRef"
               @on-change="onNthWeekday"
               transfer
-            >
-              <Option v-for="week in weekOptions" :key="week.value" :value="week.value">
-                {{ week.label }}
-              </Option>
-            </Select>
-          </div>
-        </div>
-      </div>
+          >
+            <Option v-for="week in weekOptions" :key="week.value" :value="week.value">
+              {{ week.label }}
+            </Option>
+          </Select>
+        </Radio>
+
+      </Space>
     </RadioGroup>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
-import { RadioGroup, Radio, InputNumber, Select, Option } from 'view-ui-plus'
+import {RadioGroup, Radio, InputNumber, Select, Option, Space} from 'view-ui-plus'
 import dayjs from 'dayjs'
 import { isStr, isWeek, week, specificWeek } from './common.ts'
 
@@ -388,60 +353,4 @@ onMounted(() => {
   padding: 10px 0;
 }
 
-.crontab-list {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  min-height: 32px;
-}
-
-.crontab-list-item {
-  margin-left: 12px;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.item-text {
-  display: inline-block;
-  margin: 0 4px;
-  line-height: 32px;
-  white-space: nowrap;
-}
-
-.number-input {
-  display: inline-block;
-  width: 80px;
-  min-width: 80px;
-}
-
-.select-input {
-  width: 100%;
-  max-width: 300px;
-  min-width: 200px;
-}
-
-.select-input-small {
-  width: 120px;
-  min-width: 100px;
-}
-
-/* 确保所有子元素垂直居中 */
-.crontab-list :deep(.ivu-radio-wrapper) {
-  align-items: center;
-  margin-right: 0;
-}
-
-/* 输入框和选择框的对齐优化 */
-.crontab-list :deep(.ivu-input-number),
-.crontab-list :deep(.ivu-select) {
-  vertical-align: middle;
-}
-
-/* 多选选择框的特殊处理 */
-.crontab-list-item .select-input {
-  align-items: flex-start;
-}
 </style>
