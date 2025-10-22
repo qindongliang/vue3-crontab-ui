@@ -16,6 +16,7 @@
       v-model="showModal"
       title="CRONTAB 表达式编辑器"
       :width="800"
+      :styles="{ top: '0px' }"
       :mask-closable="false"
       @on-ok="handleConfirm"
       @on-cancel="handleCancel"
@@ -36,28 +37,29 @@
           </Button>
         </div>
       </div>
-      <!-- 表达式预览 -->
-      <div class="expression-preview">
-        <h4>表达式预览：</h4>
-        <div class="expression-display">
-          <Input v-model="internalValue" readonly style="font-family: monospace; font-weight: bold;" />
-        </div>
-      </div>
       <!-- 起止时间 -->
       <div class="time-range-picker">
         <h4>起止时间：</h4>
         <DatePicker
-          :model-value="dateRange"
-          type="datetimerange"
-          format="yyyy-MM-dd HH:mm:ss"
-          confirm
-          placeholder="选择起止时间"
-          style="width: 300px"
-          transfer
-          @on-change="handleDateChange"
-          @on-clear="handleClear"
+            :model-value="dateRange"
+            type="datetimerange"
+            format="yyyy-MM-dd HH:mm:ss"
+            confirm
+            placeholder="选择起止时间"
+            style="width: 400px"
+            transfer
+            @on-change="handleDateChange"
+            @on-clear="handleClear"
         />
       </div>
+      <!-- 表达式预览 -->
+      <div class="expression-preview">
+        <h4>表达式预览：</h4>
+        <div style="width: 400px" class="expression-display">
+          <Input v-model="internalValue" readonly style="font-family: monospace; font-weight: bold;" />
+        </div>
+      </div>
+
       <div class="crontab-content">
 
         <!-- Tab 页面 -->
