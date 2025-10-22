@@ -7,9 +7,6 @@
       readonly
       @click="showModal = true"
     >
-      <template #suffix>
-        <Icon type="ios-clock" />
-      </template>
     </Input>
 
     <Modal
